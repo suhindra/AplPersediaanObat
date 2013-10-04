@@ -1,0 +1,56 @@
+if($this->session->flashdata('message')){
+echo "<p><i>".$this->session->flashdata('message')."</i></p>";
+}
+?>  
+
+  <div id="main_container">
+      <div class="row-fluid">
+        <div class="box ">
+          <div class="title">
+            <h4> <span><?php echo $title;?></span> </h4>
+          </div>
+          <!-- End .title -->
+          
+          <div class="content top">
+            <table id="datatable_example" class="responsive table table-striped table-bordered" style="width:100%;margin-bottom:0; ">
+              <thead>
+                <tr>
+                  <th class="jv no_sort"><label class="checkbox ">
+                      <input type="checkbox">
+                    </label></th>
+		  <th class="to_hide_phone ue no_sort">Kode Obat</th>
+                  <th class="">Nama Obat</th>
+                  <th class="to_hide_phone span2">Stok</th>
+                  <th class="ms no_sort ">Aksi</th>
+                </tr>
+              </thead>
+		<?php
+		if(!empty($obat)){
+		foreach($obat as $obt){
+		?>
+              <tbody>
+                <tr>
+                  <td><label class="checkbox ">
+                      <input type="checkbox">
+                    </label></td>
+		  <td class="to_hide_phone"><?php echo $obt['kode_obat'];?><div class="row-fluid"> </td>
+                  <td><?php echo $obt['nama_obat'];?></td>
+                  <td class="to_hide_phone"><?php echo $obt['jumlah_obat'];?><div class="row-fluid"> </td>
+	 	  <td class="ms"><div class="btn-group1"><a href="<?=base_url()?>index.php/obat/edit/<?php echo $obt['kode_obat'];?>" class="btn btn-small"  rel="tooltip" data-placement="left" data-original-title=" Edit "><i class="gicon-edit"></i></a><a class="btn btn-small" rel="tooltip" data-placement="top" data-original-title="View"><i class="gicon-eye-open"></i></a><a href="<?=base_url()?>index.php/obat/delete/<?php echo $obt['kode_obat'];?>"  onclick="return confirm('Anda yakin akan menghapus data?')" class="btn  btn-small" rel="tooltip" data-placement="bottom" data-original-title="Remove"><i class="gicon-remove "></i></a> </div></td>
+                </tr>
+              </tbody>
+<?php
+}
+}
+?>
+            </table>
+          </div>
+          <!-- End .content --> 
+        </div>
+        <!-- End box --> 
+      </div>
+      <!-- End .row-fluid --> 
+      
+    </div>
+
+    

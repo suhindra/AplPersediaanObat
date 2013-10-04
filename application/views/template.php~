@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Aplikasi Persediaan Obat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="<?php echo base_url();?>css/images/favicon.png">
+<!-- Le styles -->
+<link href="<?php echo base_url();?>css/twitter/bootstrap.css" rel="stylesheet">
+<link href="<?php echo base_url();?>css/base.css" rel="stylesheet">
+<link href="<?php echo base_url();?>css/twitter/responsive.css" rel="stylesheet">
+<link href="<?php echo base_url();?>css/jquery-ui-1.8.23.custom.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url(); ?>js/plugins/modernizr.custom.32549.js"></script>
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../../../html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+
+</head>
+<body>
+<?php $this->load->view('loading') ?>
+<?php $this->load->view('left') ?>
+<?php $this->load->view('header') ?>
+
+<?php $this->load->view('javascript') ?>
+<?php $this->load->view('footer') ?>
+</body>
+</html>

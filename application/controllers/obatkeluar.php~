@@ -1,0 +1,159 @@
+<?php
+class Obatkeluar extends CI_Controller{
+    function __construct(){
+        parent::__construct();
+	$post_array = $this->session->userdata('session_data');
+	if ($post_array['is_login'] != true ){
+	redirect('user/akses');
+	}
+        $this->load->model('mobat');
+        $this->load->model('mobatkeluar');
+    }
+
+    function index(){
+
+        $this->load->view('element/loading');
+	$this->load->view('element/left');	
+	$this->load->view('element/header');
+	$this->load->view('pages/obatkeluar_home');        
+	$this->load->view('element/footer');
+        $this->load->view('element/javascript');
+	$this->load->view('script/js_obatkeluar');
+        $this->session->unset_userdata('limit_add_cart');
+        $this->cart->destroy();
+    }
+
+
+	function getList()
+    {
+        $this->datatables->select("a.id_transaksi, a.tgl_transaksi, b.nama_petugas, c.nama_pasien, a.total_harga")
+	                 ->from('obat_keluar a, petugas b, pasien c')
+			 ->where('a.id_petugas = b.id_petugas AND a.id_pasien = c.id_pasien');	
+	$this->datatables->add_column('aksi', '<a href="detailObatKeluar/$1" class="btn btn-small"  rel="tooltip" data-placement="left" data-original-title="Edit"><i class="gicon-eye-open"></i></a> ', 'a.id_transaksi');
+	           echo $this->datatables->generate();
+
+    }
+
+    function formAddObatKeluar(){
+      $data=array(
+            'id_transaksi'=>$this->mobatkeluar->getKodeObatKeluar(),
+            'data_obat'=>$this->mobatkeluar->manualQuery("SELECT * from obat")->result(),
+	    'data_pasien'=>$this->mobatkeluar->manualQuery("SELECT * from pasien ")->result(),
+        );
+        $this->load->view('element/loading');
+	$this->load->view('element/left');	
+	$this->load->view('element/header');
+	$this->load->view('pages/obatkeluar_add',$data);        
+	$this->load->view('element/footer');
+        $this->load->view('element/javascript');
+	$this->load->view('script/js_obatkeluaradd');
+    }
+
+    function detailObatKeluar(){
+	$id=$this->uri->segment(3);
+	$data['data_keluardetil']=$this->mobatkeluar->getDetailObatKeluar($id);
+	$this->load->view('element/loading');
+	$this->load->view('element/left');	
+	$this->load->view('element/header');
+	$this->load->view('pages/obatkeluar_detil',$data);        
+	$this->load->view('element/footer');
+        $this->load->view('element/javascript');
+	$this->load->view('script/js_obatkeluaradd');
+    
+    }
+
+    function tambahObatToCart(){
+	$kode = $this->input->post('kode_obat');
+	$stok = $this->mobat->getStokObatById($kode);
+	$qty = $this->input->post('jumlah_keluar');
+	$kurang = $stok -$qty;
+	if ($kurang<0){	
+	echo "<script>javascript:alert('Stok tidak cukup'); window.location = 'formAddObatKeluar'</script>"; 
+	}
+	else {
+        $data = array(
+            'id'    => $this->input->post('kode_obat'),
+            'qty'   => $this->input->post('jumlah_keluar'),
+            'price' => $this->input->post('harga'),
+            'name'  => $this->mobat->getNamaObatById($kode)
+        );
+        $this->cart->insert($data);
+        redirect('obatkeluar/formAddObatKeluar');
+	}    
+}
+
+    function hapusObatCart(){
+	    $rowid = $this->uri->segment(3);
+    $data = array(
+        'rowid' => $rowid,
+        'qty' => 0
+
+ 
+        );
+        $this->cart->update($data);
+
+        redirect('obatkeluar/formAddObatKeluar');
+	}
+
+    function addObatKeluar(){
+	
+        $d_master['id_transaksi'] = $this->mobatkeluar->getKodeObatKeluar();
+        $temp = $d_master['id_transaksi'];	
+        $d_master['total_harga'] = $this->input->post('total');
+        $d_master['tgl_transaksi'] = date("Y-m-d",strtotime($this->input->post('tgl_transaksi')));
+	$d_master['id_petugas'] = $this->input->post('id_petugas');
+	$d_master['id_pasien'] = $this->input->post('id_pasien');
+	$date = $d_master['tgl_transaksi'];
+        $this->mobatkeluar->insertData("obat_keluar",$d_master);
+
+	$d_jurnal2['id_transaksi'] = $temp;
+	$d_jurnal2['tgl_transaksi'] = date("Y-m-d",strtotime($this->input->post('tgl_transaksi')));
+	$d_jurnal2['kode_akun'] = ("111");
+	$d_jurnal2['debet'] =  $this->input->post('total');
+	$this->mobatkeluar->insertData("jurnal",$d_jurnal2);	
+
+	$d_jurnal['id_transaksi'] = $temp;
+	$d_jurnal['tgl_transaksi'] = date("Y-m-d",strtotime($this->input->post('tgl_transaksi')));
+	$d_jurnal['kode_akun'] = ("112");
+	$d_jurnal['kredit'] = $d_master['total_harga'] = $this->input->post('total');
+	$this->mobatkeluar->insertData("jurnal",$d_jurnal);
+	
+        foreach($this->cart->contents() as $items){
+            $d_detail['id_transaksi'] = $temp;
+            $d_detail['kode_obat'] = $items['id'];
+            $d_detail['jumlah_obatkeluar'] = $items['qty'];
+            $d_detail['harga_obatkeluar'] = $items['price'];
+	    $d_detail['tgl_transaksi'] = $date;
+            $this->mobatkeluar->insertData("obat_keluardetil",$d_detail);
+
+            $kode=$d_detail['kode_obat'];
+	    $counter=$d_detail['jumlah_obatkeluar'];
+	    $this->mobatkeluar->manualQuery("CALL sp_updatestok ($counter,'".$kode."');");
+            
+	    $obat['safety_stok'] = $this->mobatkeluar->getSafetyStok($d_detail['kode_obat']);
+	    $obat['stok'] = $this->mobatkeluar->getKurangStok($d_detail['kode_obat'],$d_detail['jumlah_obatkeluar']);
+            $key['kode_obat'] = $d_detail['kode_obat'];
+            $this->mobatkeluar->updateData("obat",$obat,$key);
+            
+            $obat['rop'] = $this->mobatkeluar->getRop($d_detail['kode_obat']);
+	    $key['kode_obat'] = $d_detail['kode_obat'];
+	    $this->mobatkeluar->updateData("obat",$obat,$key);   
+
+	$stok = $this->mobat->getStokObatById($d_detail['kode_obat']);
+	$rop = $this->mobat->getRopObatById($d_detail['kode_obat']);
+	$nama = $this->mobat-getNamaObatById($d_detail['kode_obat']);
+	if ($stok<$rop){
+	$query2=$this->db->query('select no_hp from petugas where sms_gateway=1');
+	foreach($query2->result() as $row)
+            {
+		$this->db->query("INSERT INTO outbox(DestinationNumber, TextDecoded, CreatorID) VALUES ('".$row->no_hp."','Obat ".$d_detail['kode_obat']."-".$nama." Telah mencapai Reorder Point segera lakukan pemesanan ke supplier ', 'SMS GATEWAY')");
+            }
+	}
+	
+        }
+        $this->session->unset_userdata('limit_add_cart');
+        $this->cart->destroy();
+        redirect('obatkeluar');
+    }
+
+   }

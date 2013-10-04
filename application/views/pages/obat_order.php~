@@ -1,0 +1,45 @@
+<div id="main_container">
+      <div class="row-fluid">
+        <div class="box box paint color_7">
+          <div class="title">
+            <h4> <span>Daftar Order Obat</span> </h4>
+          </div>
+          <!-- End .title -->
+          
+          <div class="content top">
+            <table class="responsive table table-striped table-bordered" style="width:100%;margin-bottom:0; ">
+           
+                <tr>
+		  <th class="to_hide_phone ue">Kode Obat</th>
+                  <th class="">Nama Obat</th>
+		  <th class="">Jumlah Order</th>
+	          <th class="">Satuan</th>
+		  <th class="">Ubah Jumlah Order</th>
+                </tr>
+		<tr>
+	<?php
+if(!empty($data_order)){
+foreach($data_order as $order){
+?>
+		  <td><?php echo $order->kode_obat?></td>
+		  <td><?php echo $order->nama_obat?></td>
+		  <td></td>
+		  <td></td>
+		  <td><a href="<?php echo base_url();?>index.php/akun/formEditAkun/"  class="btn btn-small"  rel="tooltip" data-placement="left" data-original-title="Edit"><i class="gicon-edit"></i></a></td>
+		  </tr>       
+	<?php }
+}
+?>            
+	</table>
+	
+      
+	</div>
+          <!-- End .content --> 
+        </div>
+        <!-- End box --> 
+      </div>
+      <!-- End .row-fluid --> 
+      
+    </div>
+
+

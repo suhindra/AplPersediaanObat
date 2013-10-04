@@ -1,0 +1,72 @@
+<table width="100%" align="center">
+    <td colspan="11" align="center"></td>
+	</tr>
+      </tr>
+      <tr>
+        <td colspan="11" align="center"></td>
+      </tr>
+      <tr> 
+        <td colspan="11" align="center" class="style7"><strong> Jurnal Umum Persediaan Barang</strong> 
+        </td>
+      </tr>
+      <tr> 
+        <td colspan="11" align="center" class="style7"><strong> Puskesmas Mantrijeron Yogyakarata</strong> 
+        </td>
+      </tr>
+      <tr> 
+        <td colspan="11" align="center" class="style7"><strong> Periode</strong> 
+        </td>
+      </tr>
+      <tr> 
+        <td colspan="11" align="center"><div align="center"> <font size="5"><strong> 
+                        </strong> </font></div></td>
+      </tr>
+      <tr>
+        <td><p></p></td>
+      </tr>
+    </table>
+
+<center>
+
+
+
+<p>&nbsp;</p>
+<table  cellpadding="2" cellspacing="1" bgcolor="#82A1D9" width="80%">
+  <tr>
+    <th width="5%">No</th>
+    <th width="20%">Tanggal </th>
+    <th width="30%">Akun </th>
+    <th width="20%">Debet</th>
+    <th width="20%">Kredit</th>
+  </tr>
+
+    
+  
+			
+					  </tr>
+		  		<tr bgcolor=#b7ccfc >
+			<td align="center"></td>
+			<td align="center"></td>
+			<td align="center"></td>
+			<td></td>
+			<td></td>
+			
+					  </tr>
+		  		
+		   <tr>
+   <td>&nbsp;</td>
+     </tr>
+</table>
+</center>
+<br>
+
+<table width="100%" align="center">
+
+  <tr>
+  <td colspan="2" align="center">
+  <p>
+  <input name="button" type="button" onclick="window.print()" value="Print This Page" />
+</p></td>
+</tr>
+  </table>
+

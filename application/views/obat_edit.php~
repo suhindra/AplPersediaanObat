@@ -1,0 +1,51 @@
+<h2><?php echo $title;?></h2>
+<form id="form1" action="<?=base_url()?>index.php/obat/edit" method="post" name="form1">
+<?php
+if($this->session->flashdata('message')){
+echo "<i>".$this->session->flashdata('message')."</i>";
+}
+ 
+echo validation_errors();
+?>
+<?php echo form_hidden('kode_obat',$obat['kode_obat']);?>
+    <div id="main_container">
+      <div class="row-fluid">
+        <div class="span7">
+          <div class="box paint color_7">
+            <div class="title">
+              <h4> <i class="icon-book"></i><span>Tambah Data Obat</span> </h4>
+            </div>
+            <div class="content">
+              <form class="form-horizontal row-fluid" action="#">
+                <div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Kode Obat</label>
+                  <div class="controls span7">
+                    <input type="text" name="kode_obat" id="kode_obat" value="<?php echo set_value('kode_obat',isset($obat['kode_obat'])?$obat['kode_obat'] :'');?>" class="row-fluid">
+                  </div>
+                </div>
+                <div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Nama Obat</label>
+                  <div class="controls span7">
+                    <input type="text" name="nama_obat" id="nama_obat" value="<?php echo set_value('nama_obat',isset($obat['nama_obat'])?$obat['nama_obat'] :'');?>" class="row-fluid">
+                  </div>
+                </div>
+                <div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Jumlah Obat</label>
+                  <div class="controls span7">
+                    <input type="text" name="jumlah_obat" id="jumlah_obat" value="<?php echo set_value('jumlah_obat',isset($obat['jumlah_obat'])?$obat['jumlah_obat'] :'');?>" class="row-fluid">
+                  </div>
+                </div>
+                <div class="form-actions row-fluid">
+                  <div class="span7 offset3">
+                    <button type="submit" id="Add" value="Submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- End #container --> 
+
+

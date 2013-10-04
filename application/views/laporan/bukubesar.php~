@@ -1,0 +1,243 @@
+<div id="main_container">
+      <div class="row-fluid">
+        <div class="box box paint color_25">
+          <div class="title">
+            <h4> <span>Buku Besar</span> </h4>
+          </div>
+          <!-- End .title -->
+          
+          <div class="content top">
+            <div class="form-row control-group row-fluid">
+		<label class="control-label span3">Periode</label>
+		<div class="controls span3">
+		<input type="text" class="row-fluid" name="nama_petugas" value="<?php echo $data_bulan;?> - <?php echo $data_tahun?>" readonly="true">
+		</div></div>
+            <table class="responsive table table-hover">
+                <tr>
+                    <th class="ms" colspan="7">No akun = 111</th>
+                </tr>
+            </table>
+            <table border='3px' style="width:100%;margin-bottom:0; ">
+                <tr>
+		  <th rowspan ='2' class="to_hide_phone">No</th>
+                  <th rowspan ='2' class="to_hide_phone span1">Tanggal Transaksi</th>
+		  <th rowspan ='2' class="to_hide_phone span2">Keterangan</th>
+                  <th rowspan ='2' class="to_hide_phone span1">Ref</th>
+		  <th rowspan ='2' class="to_hide_phone span2">Debet</th>
+	  	  <th rowspan ='2' class="to_hide_phone span2">Kredit</th>
+		  <th colspan ='2' class="to_hide_phone span4">Saldo</th>
+                </tr>
+		<tr>
+		  <th class="to_hide_phone span2">Debet</th>
+	  	  <th class="to_hide_phone span2">Kredit</th>
+		</tr>
+		<tr>
+	        <td colspan='6'>Saldo Awal</td>
+                <?
+                
+                    $debetKas = 0;
+                    $kreditKas = 0;
+                    $no=1;
+                    if(!empty($saldoKas)){
+                    foreach($saldoKas as $salKas){
+                        if ($salKas->debet < $salKas->kredit) {
+                        $kreditKas=$salKas->kredit - $salKas->debet;
+                        $debetKas=0;
+
+                        echo '<td>'.$debetKas.'</td>		 
+                              <td>'.$kreditKas.';</td>
+                              </tr>';
+
+
+                        }
+                        else {
+
+                                     $debetKas=$salKas->debet - $salKas->kredit;
+                                     $kreditKas=0;
+
+                                     echo '<td>'.$debetKas.'</td>		 
+                                    <td>'.$kreditKas.'</td>
+                                     </tr>';
+
+
+
+
+                        }
+                    }
+                    }
+                    else {
+                        echo '<td>0</td>		 
+                              <td>0</td>
+                              </tr>';
+
+                    }
+
+                    $no=0;
+                    if(!empty($jurnalKas)){
+                    foreach($jurnalKas as $jur){
+                    $no++;
+                    if($debetKas>0){
+                    if (($debetKas+$jur->debet)-$jur->kredit > 0) {
+                        $debetKas=($debetKas+$jur->debet)-$jur->kredit;
+                    }
+                     elseif (($debetKas+$jur->debet)-$jur->kredit > 0) {
+                        $kreditKas=($kreditKas+$jur->kredit)-$jur->debet;    
+                    }
+                    }
+                     else {
+                    if (($kreditKas-$jur->debet)+$jur->kredit > 0) {
+                        $kreditKas=($kreditKas-$jur->debet)+$jur->kredit;
+                    }
+                     elseif (($kreditKas-$jur->debet)+$jur->kredit > 0) {
+                        $debetKas=($debetKas-$jur->kredit)+$jur->debet;    
+                    }  
+                    }
+                    ?>
+		  <td><?php echo $no;?></td>
+		  <td><?php echo $jur->tgl_transaksi;?></td>
+		  <td></td>		 
+		  <td></td>
+		  <td><?php echo $jur->debet?></td>
+		  <td><?php echo $jur->kredit?></td>
+                  <?
+                  
+                  ?>
+                  <td><?  echo $debetKas;?></td>		 
+                  <td><?  echo $kreditKas;?></td>		 
+		  </tr>       
+	<?php }
+}
+
+?>            
+
+	</table>
+        
+	</div>
+          
+       
+          <div class="content top">
+              <table class="responsive table table-hover">
+                <tr>
+                    <th class="ms" colspan="7">No akun = 112</th>
+                </tr>
+            </table>
+            <table border='3px' style="width:100%;margin-bottom:0; ">
+           
+                <tr>
+		  <th rowspan ='2' class="to_hide_phone">No</th>
+                  <th rowspan ='2' class="to_hide_phone span1">Tanggal Transaksi</th>
+		  <th rowspan ='2' class="to_hide_phone span2">Keterangan</th>
+                  <th rowspan ='2' class="to_hide_phone span1">Ref</th>
+		  <th rowspan ='2' class="to_hide_phone span2">Debet</th>
+	  	  <th rowspan ='2' class="to_hide_phone span2">Kredit</th>
+		  <th colspan ='2' class="to_hide_phone span4">Saldo</th>
+                </tr>
+		<tr>
+		  <th class="to_hide_phone span2">Debet</th>
+	  	  <th class="to_hide_phone span2">Kredit</th>
+		</tr>
+		<tr>
+	        <td colspan='6'>Saldo Awal</td>
+                <?
+                
+$debetPersediaan = 0;
+$kreditPersediaan = 0;
+$no=1;
+if(!empty($saldoPersediaan)){
+foreach($saldoPersediaan as $salPersediaan){
+    if ($salPersediaan->debet < $salPersediaan->kredit) {
+    $kreditPersediaan=$salPersediaan->kredit - $salPersediaan->debet;
+    $debetPersediaan=0;
+
+    echo '<td>'.$debetPersediaan.'</td>		 
+          <td>'.$kreditPersediaan.'</td>
+          </tr>';
+              
+                
+    }
+    else {
+
+                 $debetPersediaan=$salPersediaan->debet - $salPersediaan->kredit;
+                 $kreditPersediaan=0;
+
+                 echo '<td>'.$debetPersediaan.'</td>		 
+		<td>'.$kreditPersediaan.'</td>
+		 </tr>';
+              
+                 
+                 
+                 
+    }
+}
+}
+else {
+    echo '<td>0</td>		 
+          <td>0</td>
+	  </tr>';
+    
+}
+         
+$no=0;
+if(!empty($jurnalPersediaan)){
+foreach($jurnalPersediaan as $jur){
+$no++;
+if($debetPersediaan>0){
+    if (($debetPersediaan+$jur->debet)-$jur->kredit > 0) {
+    $debetPersediaan=($debetPersediaan+$jur->debet)-$jur->kredit;
+    $kreditPersediaan=0;
+}
+ elseif (($debetPersediaan+$jur->debet)-$jur->kredit > 0) {
+    $kreditPersediaan=($kreditPersediaan+$jur->kredit)-$jur->debet;    
+    $debetPersediaan=0;
+}
+
+}
+ elseif($kreditPersediaan>0) {
+if (($kreditPersediaan-$jur->debet)+$jur->kredit > 0) {
+    $kreditPersediaan=($kreditPersediaan-$jur->debet)+$jur->kredit;
+    $debetPersediaan=0;
+}
+ elseif (($kreditPersediaan+$jur->debet)+$jur->kredit > 0) {
+    $debetPersediaan=($debetPersediaan-$jur->kredit)+$jur->debet;
+    $kreditPersediaan=0;
+ 
+}  
+
+}
+else {
+    $debetPersediaan=0;
+    $kreditPersediaan=0;
+ 
+}
+?>
+		  <td><?php echo $no;?></td>
+		  <td><?php echo $jur->tgl_transaksi;?></td>
+		  <td></td>		 
+		  <td></td>
+		  <td><?php echo $jur->debet?></td>
+		  <td><?php echo $jur->kredit?></td>
+                  <?
+                  
+                  ?>
+                  <td><?  echo $debetPersediaan;?></td>		 
+                  <td><?  echo $kreditPersediaan;?></td>		 
+		  </tr>       
+	<?php }
+}
+
+?>            
+
+	</table>
+        
+	</div>
+          
+        
+          <!-- End .content --> 
+        </div>
+        <!-- End box --> 
+      </div>
+      <!-- End .row-fluid --> 
+      
+    </div>
+
+

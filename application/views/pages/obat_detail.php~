@@ -1,0 +1,60 @@
+<?php
+if (isset($detail_obat)){
+foreach($detail_obat as $row){
+?>
+    <div id="main_container">
+      <div class="row-fluid">
+        <div class="span7">
+          <div class="box paint color_7">
+            <div class="title">
+              <h4> <i class="icon-book"></i><span>Detil Obat</span> </h4>
+            </div>
+            <div class="content">
+              <form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('obatmasuk/tambahObatToCart')?>">
+                <div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Kode Obat</label>
+                  <div class="controls span7">
+                    <input type="text" name="kode_obat" id="kode_obat" value="<?php echo $row->kode_obat;?>" class="row-fluid" >
+                  </div>
+                </div>
+                <div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Nama Obat</label>
+                  <div class="controls span7">
+                    <input type="text" name="nama_obat" id="nama_obat" value="<?php echo $row->nama_obat;?>" class="row-fluid">
+                  </div>
+                </div>
+		<div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Jumlah Obat Masuk</label>
+                  <div class="controls span7">
+                    <input type="text" name="jumlah_masuk" id="jumlah_masuk" value="" class="row-fluid">
+                  </div>
+                </div>
+		<div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Harga Satuan</label>
+                  <div class="controls span7">
+                    <input type="text" name="harga" id="harga" value="" class="row-fluid">
+                  </div>
+                </div>
+		<div class="form-row control-group row-fluid">
+                  <label class="control-label span3" for="normal-field">Tanggal Kadaluarsa</label>
+                  <div id="tgl_transaksi" class="input-append date row-fluid span7" data-date-format="dd-mm-yyyy" data-date="12-02-2012">
+		  <input class="row-fluid" name="tgl_transaksi" type="text" value="<?php echo isset($date) ? $date : date('d-m-Y')?>"></input><span class="add-on"><i class="icon-th"></i></span>
+                  </div>
+                </div>
+                <div class="form-actions row-fluid">
+                  <div class="span7 offset3">
+                    <button type="submit" value="Submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- End #container --> 
+
+<?php 
+}
+}
+?>
